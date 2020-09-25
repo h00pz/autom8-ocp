@@ -1,0 +1,13 @@
+---
+## Stuff to install on linux hosts
+- hosts:
+    - all
+  become: true
+
+  vars:
+    machine:
+      username: '{{ ipmi_username }}'
+      password: '{{ ipmi_password }}'
+
+  roles:
+    - ipmi

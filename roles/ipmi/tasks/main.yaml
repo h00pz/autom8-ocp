@@ -1,0 +1,8 @@
+---
+- name: set ipmi next boot to network
+  ipmi_boot:
+    name: fury-ipmi.h00pz.co
+    user: "{{ipmi_username}}"
+    password: "{{ipmi_password}}"
+    bootdev: network
+    state: absent
