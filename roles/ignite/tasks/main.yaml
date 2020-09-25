@@ -1,0 +1,37 @@
+---
+- name: Build the cluster directory
+  file:
+    path: /mnt/the-pool/rh/clusters/c1/{{ansible_date_time.date}}
+    state: directory
+    mode: "u=rwx,g=rwx,o=rwx"
+  when: "'ocp-mgmt' in group_names"
+
+- name: copy manifest to build directory
+  command: "cp /mnt/the-pool/rh/install-config.yaml /mnt/the-pool/rh/clusters/c1/{{ ansible_date_time.date }}"
+  when: "'ocp-mgmt' in group_names"
+
+- name: create ignition files
+  command: "openshift-install create ignition-configs --dir=/mnt/the-pool/rh/clusters/c1/{{ ansible_date_time.date }}"
+  when: "'ocp-mgmt' in group_names"
+
+- name: remove old ignition files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /mnt/the-pool/rh/master.ign
+    - /mnt/the-pool/rh/worker.ign
+    - /mnt/the-pool/rh/bootstrap.ign
+  when: "'ocp-mgmt' in group_names"
+
+- name: create ignition symlinks
+  file:
+    src: "/mnt/the-pool/rh/clusters/c1/{{ ansible_date_time.date }}/{{ item.src }}"
+    dest: "/mnt/the-pool/rh/{{ item.dest }}"
+    state: link
+    mode: "u=rwx,g=rwx,o=rwx"
+  with_items:
+    - { src: 'master.ign', dest: 'master.ign' }
+    - { src: 'worker.ign', dest: 'worker.ign' }
+    - { src: 'bootstrap.ign', dest: 'bootstrap.ign' }
+  when: "'ocp-mgmt' in group_names"

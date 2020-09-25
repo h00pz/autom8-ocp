@@ -10,3 +10,25 @@
     - fury-ipmi.h00pz.co
     - loki-ipmi.h00pz.co
     - yondu-ipmi.h00pz.co
+  when: "'hw-mgmt' in group_names"
+
+- name: turn hardware power off
+  ipmi_power:
+    name: "{{ item }}"
+    user: "{{ ipmi_username }}"
+    password: "{{ ipmi_password }}"
+    state: off
+  when: "'hw-mgmt' in group_names"
+
+- name: pause for 10 seconds to allow hardware to turn off
+  pause:
+    seconds: 10
+  when: "'hw-mgmt' in group_names"
+
+- name: turn hardware power on
+  ipmi_power:
+    name: "{{ item }}"
+    user: "{{ ipmi_username }}"
+    password: "{{ ipmi_password }}"
+    state: on
+  when: "'hw-mgmt' in group_names"
