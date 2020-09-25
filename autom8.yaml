@@ -1,7 +1,6 @@
 ---
-## Stuff to install on linux hosts
+
 - hosts: all
-  become: true
   vars:
   network:
     username: '{{ lookup("env", "ANSIBLE_NET_USERNAME") }}'
