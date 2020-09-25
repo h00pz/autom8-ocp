@@ -2,8 +2,8 @@
 - name: set ipmi next boot to network
   ipmi_boot:
     name: "{{ item }}"
-    user: '{{ lookup(env, "ANSIBLE_NET_USERNAME" }}'
-    password: '{{ lookup(env, "ANSIBLE_NET_PASSWORD" }}'
+    user: '{{ lookup(env, "ANSIBLE_NET_USERNAME") }}'
+    password: '{{ lookup(env, "ANSIBLE_NET_PASSWORD") }}'
     bootdev: network
     state: absent
   with_items:
