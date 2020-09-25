@@ -1,9 +1,6 @@
 ---
 ## setup ipmi properly on hardware
 - hosts: all
-  vars:
-  network:
-    ipmi_username: '{{ lookup("env", "ANSIBLE_NET_USERNAME") }}'
-    ipmi_password: '{{ lookup("env", "ANSIBLE_NET_PASSWORD") }}'
+
   roles:
     - ipmi
