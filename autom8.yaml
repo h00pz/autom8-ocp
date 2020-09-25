@@ -5,9 +5,8 @@
   become: true
 
   vars:
-    machine:
-      username: '{{ ipmi_username }}'
-      password: '{{ ipmi_password }}'
-
+   ipmi_username: “{{ ansible_env.ANSIBLE_NET_USERNAME }}”
+   ipmi_password: “{{ ansible_env.ANSIBLE_NET_PASSWORD }}”
+ 
   roles:
     - ipmi

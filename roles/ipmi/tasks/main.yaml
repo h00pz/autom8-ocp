@@ -2,8 +2,8 @@
 - name: set ipmi next boot to network
   ipmi_boot:
     name: "{{ item }}"
-    user: "{{ ipmi_username }}"
-    password: "{{ ipmi_password }}"
+    user: "{{ ansible_username }}"
+    password: "{{ ansible_password }}"
     bootdev: network
     state: absent
   with_items:
