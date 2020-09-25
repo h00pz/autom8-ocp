@@ -4,9 +4,5 @@
     - all
   become: true
 
-  vars:
-   ipmi_username: “{{ ansible_env.ANSIBLE_NET_USERNAME }}”
-   ipmi_password: “{{ ansible_env.ANSIBLE_NET_PASSWORD }}”
- 
   roles:
     - ipmi
