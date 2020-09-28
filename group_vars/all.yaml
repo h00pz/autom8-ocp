@@ -1,3 +1,10 @@
 ---
-ipmi_username: '{{ lookup("env", "ANSIBLE_NET_USERNAME") }}'
-ipmi_password: '{{ lookup("env", "ANSIBLE_NET_PASSWORD") }}'
+ipmi_username:   '{{ lookup("env", "ANSIBLE_NET_USERNAME") }}'
+ipmi_password:   '{{ lookup("env", "ANSIBLE_NET_PASSWORD") }}'
+vmware_host:     '{{ lookup("env", "VMWARE_HOST") }}'
+vmware_user:     '{{ lookup("env", "VMWARE_USER") }}'
+vmware_pass:     '{{ lookup("env", "VMWARE_PASSWORD") }}'
+vmware_dc:       "pilsen" 
+vmware_folder:   "c1-ocp"
+vmware_ds:       "the-pool"
+vmware_template: "rhcos-template"

@@ -1,0 +1,46 @@
+---
+- name: Create VMware Folder (if it doesn't exist)
+  vcenter_folder:
+    hostname: '{{ vmware_host }}'
+    username: '{{ vmware_user }}'
+    password: '{{ vmware_pass }}'
+    datacenter_name: '{{ vmware_dc }}'
+    folder_name: '{{ vmware__folder }}'
+    folder_type: vm
+    validate_certs: False
+    state: present
+  delegate_to: localhost
+
+- name: Remove existing RHCOS template (if it exists)
+  vmware_guest:
+    hostname: '{{ vmware_host }}'
+    username: '{{ vmware_user }}'
+    password: '{{ vmware_pass }}'
+    datacenter: '{{ vmware_dc }}'
+    datastore: '{{ vmware_ds }}'
+    name: '{{ vmware_rhcos }}'
+    folder: '{{ vmware_folder }}'
+    validate_certs: False
+    state: absent
+  delegate_to: localhost
+
+- name: Deploy RHCOS template from OVA
+  vmware_deploy_ovf:
+    hostname: '{{ vmware_host }}'
+    username: '{{ vmware_user }}'
+    password: '{{ vmware_pass }}'
+    datacenter: '{{ vmware_dc }}'
+    datastore: '{{ vmware_ds }}'
+    cluster: '{{ vmware_cluster }}'
+    name: '{{ rhcos_template_name }}'
+    folder: '/{{ vmware_dc }}/vm/{{ ocp_cluster_folder }}'
+    networks:
+      "VM Network": '{{ rhcos_template_vm_network }}'
+    validate_certs: False
+    power_on: False
+    ovf: '{{ rhcos_ova_file_fullname }}'
+    #disk_provisioning: "{{ disk_provisioning }}"
+    properties:
+      guestinfo.ignition.config.data: ""
+      guestinfo.ignition.config.data.encoding: "base64"
+  delegate_to: localhost

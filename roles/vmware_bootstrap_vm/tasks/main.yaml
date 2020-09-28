@@ -1,0 +1,38 @@
+---
+- name: remove bootstrap VM if exists
+  vmware_guest:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_pass }}"
+    name: bootstrap.c1.h00pz.co
+    state: absent
+  delegate_to: localhost
+  when: "'ocp-mgmt' in group_names"
+
+- name: Create bootstrap VM
+  vmware_guest:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_pass }}"
+    datacenter: "{{ vmware_dc }}"
+    folder: "{{ vmware_folder }}"
+    validate_certs: no
+    name: bootstrap.c1.h00pz.co
+    state: poweredon
+    template: "{{ vmware_template }}"
+    disk:
+    - size_gb: 120
+      type: thin
+      datastore: "{{ vmware_ds }}"
+    hardware:
+      memory_mb: 16384
+      num_cpus: 4
+      num_cpu_cores_per_socket: 4
+      scsi: paravirtual
+      memory_reservation_lock: False
+    networks:
+    - name: pg-vlan22
+      mac: 00:0c:29:53:83:eb
+    wait_for_ip_address: yes
+  delegate_to: localhost
+  when: "'ocp-mgmt' in group_names"

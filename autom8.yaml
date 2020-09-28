@@ -4,4 +4,6 @@
 
   roles:
     #- ipmi
-    - ignite
+    #- ignite
+    #- vmware_rhcos_template
+    - vmware_bootstrap_vm
