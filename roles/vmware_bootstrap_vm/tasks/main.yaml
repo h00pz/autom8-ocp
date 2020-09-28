@@ -20,6 +20,7 @@
     name: bootstrap.c1.h00pz.co
     state: poweredon
     template: "{{ vmware_template }}"
+    guest_id: "rhel7_64Guest"
     disk:
     - size_gb: 120
       type: thin
@@ -31,8 +32,7 @@
       scsi: paravirtual
       memory_reservation_lock: False
     networks:
-    - name: pg-vlan22
-      mac: 00:0c:29:53:83:eb
-    wait_for_ip_address: yes
+    - name: "pg-vlan22"
+      mac: "00:0c:29:53:83:eb"
   delegate_to: localhost
   when: "'ocp-mgmt' in group_names"
