@@ -46,7 +46,7 @@
   when: "'ocp-mgmt' in group_names"
 
 - name: copy new kubeconfig to .kube
-  file:
+  copy:
     src: "/mnt/the-pool/rh/clusters/c1/{{ ansible_date_time.date }}/auth/kubeconfig"
     dest: "/root/.kube/config"
     mode: "u=rw,g=rw,o=rw"
