@@ -5,21 +5,24 @@
     path: "{{ item }}"
     state: absent
   with_items:
-    - /mnt/the-pool/rh/clusters/c1/{{ ansible_date_time.date }}
-    - /mnt/the-pool/rh/master.ign
-    - /mnt/the-pool/rh/worker.ign
-    - /mnt/the-pool/rh/bootstrap.ign
+    - "{{ ocp_config_dir }}"
+    - "{{ ocp_web_dir }}/master.ign"
+    - "{{ ocp_web_dir }}/worker.ign"
+    - "{{ ocp_web_dir }}/bootstrap.ign"
   when: "'ocp-mgmt' in group_names"
 
 - name: Build the cluster directory
   file:
-    path: /mnt/the-pool/rh/clusters/c1/{{ansible_date_time.date}}
+    path: "{{ ocp_config_dir }}"
     state: directory
     mode: "u=rwx,g=rwx,o=rwx"
   when: "'ocp-mgmt' in group_names"
 
 - name: copy manifest to build directory
-  command: "cp /mnt/the-pool/rh/install-config.yaml /mnt/the-pool/rh/clusters/c1/{{ ansible_date_time.date }}"
+  copy:
+    src: "{{ ocp_config }}"
+    dest: "{{ ocp_config_dir }}"
+    mode: "u=rwx,g=rwx,o=rwx"
   when: "'ocp-mgmt' in group_names"
 
 - name: create ignition files
@@ -28,14 +31,14 @@
 
 - name: create ignition symlinks
   file:
-    src: "/mnt/the-pool/rh/clusters/c1/{{ ansible_date_time.date }}/{{ item.src }}"
-    dest: "/mnt/the-pool/rh/{{ item.dest }}"
+    src: "{{ ocp_config_dir }}/{{ item }}"
+    dest: "{{ ocp_web_dir }}/{{ item }}"
     state: link
     mode: "u=rwx,g=rwx,o=rwx"
   with_items:
-    - { src: 'master.ign', dest: 'master.ign' }
-    - { src: 'worker.ign', dest: 'worker.ign' }
-    - { src: 'bootstrap.ign', dest: 'bootstrap.ign' }
+    - master.ign
+    - worker.ign
+    - bootstrap.ign
   when: "'ocp-mgmt' in group_names"
 
 - name: remove old kubeconfig
@@ -43,7 +46,6 @@
     path: /root/.kube/config
     state: absent
   when: "'ocp-mgmt' in group_names"
-
 
 - name: make root .kube directory
   file:
@@ -54,7 +56,7 @@
 
 - name: copy new kubeconfig to .kube
   copy:
-    src: "/mnt/the-pool/rh/clusters/c1/{{ ansible_date_time.date }}/auth/kubeconfig"
+    src: "{{ ocp_config_dir }}/auth/kubeconfig"
     dest: "/root/.kube/config"
     mode: "u=rw,g=rw,o=rw"
     force: yes

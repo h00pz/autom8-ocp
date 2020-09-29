@@ -1,0 +1,4 @@
+---
+- name: waiting on bootstrap to complete
+  command: openshift-install --dir= wait-for bootstrap-complete \ 
+    --log-level=info
