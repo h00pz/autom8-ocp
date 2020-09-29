@@ -18,6 +18,10 @@
     user: "{{ ipmi_username }}"
     password: "{{ ipmi_password }}"
     state: off
+  with_items:
+    - fury-ipmi.h00pz.co
+    - loki-ipmi.h00pz.co
+    - yondu-ipmi.h00pz.co
   when: "'hw-mgmt' in group_names"
 
 - name: pause for 10 seconds to allow hardware to turn off
@@ -31,4 +35,8 @@
     user: "{{ ipmi_username }}"
     password: "{{ ipmi_password }}"
     state: on
+  with_items:
+    - fury-ipmi.h00pz.co
+    - loki-ipmi.h00pz.co
+    - yondu-ipmi.h00pz.co
   when: "'hw-mgmt' in group_names"
