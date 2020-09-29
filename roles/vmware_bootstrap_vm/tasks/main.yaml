@@ -1,4 +1,16 @@
 ---
+- name: Poweron Bootstrap VM
+  vmware_guest_powerstate:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_pass }}"
+    validate_certs: no
+    folder: "/{{ vmware_dc }}/vm/{{ vmware_folder }}"
+    name: bootstrap.c1.h00pz.co
+    state: powered-off
+  delegate_to: localhost
+  when: "'ocp-mgmt' in group_names"
+
 - name: remove bootstrap VM if exists
   vmware_guest:
     hostname: "{{ vmware_host }}"
