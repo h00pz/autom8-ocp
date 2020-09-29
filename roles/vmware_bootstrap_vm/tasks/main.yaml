@@ -58,7 +58,7 @@
     name: bootstrap.c1.h00pz.co
     validate_certs: no
     boot_delay: 2000
-    enter_bios_setup: True
+    enter_bios_setup: False
     boot_retry_enabled: True
     boot_retry_delay: 22300
     boot_firmware: bios
