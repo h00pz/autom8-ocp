@@ -8,6 +8,7 @@
     folder: "/{{ vmware_dc }}/vm/{{ vmware_folder }}"
     name: bootstrap.c1.h00pz.co
     state: powered-off
+  ignore_errors: yes
   delegate_to: localhost
   when: "'ocp-mgmt' in group_names"
 
