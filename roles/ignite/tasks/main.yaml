@@ -37,3 +37,17 @@
     - { src: 'worker.ign', dest: 'worker.ign' }
     - { src: 'bootstrap.ign', dest: 'bootstrap.ign' }
   when: "'ocp-mgmt' in group_names"
+
+- name: make root .kube directory
+  file:
+    path: /root/.kube
+    state: directory
+    mode: "u=rwx,g=rwx,o=rwx"
+  when: "'ocp-mgmt' in group_names"
+
+- name: copy new kubeconfig to .kube
+  file:
+    src: "/mnt/the-pool/rh/clusters/c1/{{ ansible_date_time.date }}/auth/kubeconfig"
+    dest: "/root/.kube/config"
+    mode: "u=rw,g=rw,o=rw"
+  when: "'ocp-mgmt' in group_names"
