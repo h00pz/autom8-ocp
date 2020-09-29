@@ -1,7 +1,7 @@
 ---
 ## setup ipmi properly on hardware
 - hosts: all
-
+  become: true
   roles:
     #- ipmi
     - ignite
