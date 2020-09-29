@@ -25,7 +25,8 @@
 - name: waiting on install to complete
   command: openshift-install --dir={{ ocp_config_dir }} wait-for install-complete --log-level=info
   register: install_complete
+  when: "'ocp-mgmt' in group_names"
 
 - name: evaluate install completion and exit if failed
   meta: end_play
-  when: "'{{ install_fail_txt }}' in {{ install_complete }}"
+  when: "'{{ install_fail_txt }}' in {{ install_complete }} and 'ocp-mgmt' in group_names"

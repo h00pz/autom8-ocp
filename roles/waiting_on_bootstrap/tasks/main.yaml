@@ -3,7 +3,8 @@
   command: openshift-install --dir={{ ocp_config_dir }} wait-for bootstrap-complete \ 
     --log-level=info
   register: bootstrap_complete
+  when: "'ocp-mgmt' in group_names"
 
 - name: evaluate bootstrap completion and exit if failed
   meta: end_play
-  when: "'{{ bootstrap_fail_txt }}' in {{ bootstrap_complete }}"
+  when: "'{{ bootstrap_fail_txt }}' in '{{ bootstrap_complete }}' and 'ocp-mgmt' in group_names"
