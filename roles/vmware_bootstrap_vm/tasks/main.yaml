@@ -69,21 +69,21 @@
   delegate_to: localhost
   when: "'ocp-mgmt' in group_names"
 
-- name: Change network adapter settings of virtual machine
-  vmware_guest_network:
-    hostname: "{{ vmware_host }}"
-    username: "{{ vmware_user }}"
-    password: "{{ vmware_pass }}"
-    datacenter: "{{ vmware_dc }}"
-    validate_certs: no
-    name: bootstrap.c1.h00pz.co
-    gather_network_info: false
-    networks:
-      - label: "Network adapter 1"
-        state: present
-        manual_mac: "00:0c:29:53:83:eb"
-  delegate_to: localhost
-  when: "'ocp-mgmt' in group_names"
+#- name: Change network adapter settings of virtual machine
+#  vmware_guest_network:
+#    hostname: "{{ vmware_host }}"
+#    username: "{{ vmware_user }}"
+#    password: "{{ vmware_pass }}"
+#    datacenter: "{{ vmware_dc }}"
+#    validate_certs: no
+#    name: bootstrap.c1.h00pz.co
+#    gather_network_info: false
+#    networks:
+#      - label: "Network adapter 1"
+#        state: present
+#        manual_mac: "00:0c:29:53:83:eb"
+#  delegate_to: localhost
+#  when: "'ocp-mgmt' in group_names"
  
 - name: Poweron Bootstrap VM
   vmware_guest_powerstate:
