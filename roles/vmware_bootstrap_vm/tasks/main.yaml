@@ -70,8 +70,8 @@
       - label: "Network adapter 1"
         state: present
         manual_mac: "00:0c:29:53:83:eb"
-    delegate_to: localhost
-    when: "'ocp-mgmt' in group_names"
+  delegate_to: localhost
+  when: "'ocp-mgmt' in group_names"
  
 - name: Poweron Bootstrap VM
   vmware_guest_powerstate:
@@ -83,3 +83,4 @@
     name: bootstrap.c1.h00pz.co
     state: powered-on
   delegate_to: localhost
+  when: "'ocp-mgmt' in group_names"
