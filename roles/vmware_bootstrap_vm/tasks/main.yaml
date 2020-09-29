@@ -18,7 +18,7 @@
     folder: "{{ vmware_folder }}"
     validate_certs: no
     name: bootstrap.c1.h00pz.co
-    state: poweredon
+    state: poweredoff
     template: "{{ vmware_template }}"
     guest_id: "rhel7_64Guest"
     disk:
@@ -36,3 +36,50 @@
       mac: "00:0c:29:53:83:eb"
   delegate_to: localhost
   when: "'ocp-mgmt' in group_names"
+
+- name: Set bootstrap VMs boot order
+  vmware_guest_boot_manager:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_pass }}"
+    name: bootstrap.c1.h00pz.co
+    validate_certs: no
+    boot_delay: 2000
+    enter_bios_setup: True
+    boot_retry_enabled: True
+    boot_retry_delay: 22300
+    boot_firmware: bios
+    secure_boot_enabled: False
+    boot_order:
+      - disk
+      - cdrom
+      - ethernet
+  delegate_to: localhost
+  when: "'ocp-mgmt' in group_names"
+
+- name: Change network adapter settings of virtual machine
+  vmware_guest_network:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_pass }}"
+    datacenter: "{{ vmware_dc }}"
+      validate_certs: no
+      name: bootstrap.c1.h00pz.co
+      gather_network_info: false
+      networks:
+        - label: "Network adapter 1"
+          state: present
+          manual_mac: "00:0c:29:53:83:eb"
+    delegate_to: localhost
+    when: "'ocp-mgmt' in group_names"
+ 
+- name: Poweron Bootstrap VM
+  vmware_guest_powerstate:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_pass }}"
+    validate_certs: no
+    folder: "/{{ vmware_dc }}/vm/{{ vmware_folder }}"
+    name: bootstrap.c1.h00pz.co
+    state: powered-on
+  delegate_to: localhost
