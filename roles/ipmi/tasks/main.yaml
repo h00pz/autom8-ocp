@@ -5,7 +5,6 @@
     user: "{{ ipmi_username }}"
     password: "{{ ipmi_password }}"
     bootdev: network
-    state: absent
   with_items:
     - fury-ipmi.h00pz.co
     - loki-ipmi.h00pz.co
