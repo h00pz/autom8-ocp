@@ -1,0 +1,31 @@
+---
+- name: Poweroff Bootstrap VM
+  vmware_guest_powerstate:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_pass }}"
+    validate_certs: no
+    folder: "/{{ vmware_dc }}/vm/{{ vmware_folder }}"
+    name: bootstrap.c1.h00pz.co
+    state: powered-off
+  ignore_errors: yes
+  delegate_to: localhost
+  when: "'ocp-mgmt' in group_names"
+
+- name: remove bootstrap VM if exists
+  vmware_guest:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_pass }}"
+    name: bootstrap.c1.h00pz.co
+    state: absent
+  delegate_to: localhost
+  when: "'ocp-mgmt' in group_names"
+
+- name: waiting on install to complete
+  command: openshift-install --dir={{ ocp_config_dir }} wait-for install-complete --log-level=info
+  register: install_complete
+
+- name: evaluate install completion and exit if failed
+  meta: end_play
+  when: "'{{ install_fail_txt }}' in {{ install_complete }}"

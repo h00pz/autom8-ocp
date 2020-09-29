@@ -1,5 +1,5 @@
 ---
-- name: Poweron Bootstrap VM
+- name: Poweroff Bootstrap VM
   vmware_guest_powerstate:
     hostname: "{{ vmware_host }}"
     username: "{{ vmware_user }}"

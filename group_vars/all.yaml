@@ -14,3 +14,6 @@ vmware_dc:       "pilsen"
 vmware_folder:   "c1-ocp"
 vmware_ds:       "the-pool"
 vmware_template: "rhcos-template"
+
+bootstrap_fail_txt: "failed waiting for Kubernetes API" 
+install_fail_txt: "failed to initialize the cluster"
