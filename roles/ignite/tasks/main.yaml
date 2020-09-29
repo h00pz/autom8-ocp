@@ -52,9 +52,5 @@
   when: "'ocp-mgmt' in group_names"
 
 - name: copy new kubeconfig to .kube
-  copy:
-    src: "{{ ocp_config_dir }}/auth/kubeconfig"
-    dest: "/root/.kube/config"
-    mode: "u=rw,g=rw,o=rw"
-    force: yes
+  command: "cp {{ ocp_config }}/auth/kubeconfig /root/.kube/config"
   when: "'ocp-mgmt' in group_names"
