@@ -19,9 +19,7 @@
   when: "'ocp-mgmt' in group_names"
 
 - name: copy manifest to build directory
-  copy:
-    src: "{{ ocp_config }}"
-    dest: "{{ ocp_config_dir }}"
+  command: "cp {{ ocp_config }} {{ ocp_config_dir }}"
   when: "'ocp-mgmt' in group_names"
 
 - name: create ignition files
