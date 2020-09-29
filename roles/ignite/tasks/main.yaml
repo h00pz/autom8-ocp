@@ -38,6 +38,13 @@
     - { src: 'bootstrap.ign', dest: 'bootstrap.ign' }
   when: "'ocp-mgmt' in group_names"
 
+- name: remove old kubeconfig
+  file:
+    path: /root/.kube/config
+    state: absent
+  when: "'ocp-mgmt' in group_names"
+
+
 - name: make root .kube directory
   file:
     path: /root/.kube
