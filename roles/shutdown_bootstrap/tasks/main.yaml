@@ -29,8 +29,9 @@
 
 - debug: 
     msg: "Install failed.  Exiting playbook.  Try again playa"
-  when:  install_complete.stdout is search("{{ install_fail_txt }}") and 'ocp-mgmt' in group_names
+  when:  install_complete.stdout is search("failed to initialize the cluster") and 'ocp-mgmt' in group_names
 
 - name: evaluate install completion and exit if failed
   meta: end_play
-  when: install_complete.stdout is search("{{ install_fail_txt }}") and 'ocp-mgmt' in group_names
+  when: install_complete.stdout is search("failed to initialize the cluster") and 'ocp-mgmt' in group_names
+
