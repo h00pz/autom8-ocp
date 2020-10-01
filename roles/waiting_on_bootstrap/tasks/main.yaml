@@ -1,10 +1,13 @@
 ---
 - name: waiting on bootstrap to complete
-  command: openshift-install --dir={{ ocp_config_dir }} wait-for bootstrap-complete \ 
-    --log-level=info
+  command: openshift-install --dir={{ ocp_config_dir }} wait-for bootstrap-complete --log-level=info
   register: bootstrap_complete
   when: "'ocp-mgmt' in group_names"
 
+- debug: test to see if bootstrap completed
+    msg: "Bootstrap failed.  Exiting playbook.  Try again playa"
+  when:  bootstrap_complete.stdout is search("failed to initialize the cluster") and "'ocp-mgmt' in group_names"
+
 - name: evaluate bootstrap completion and exit if failed
   meta: end_play
-  when: "'{{ bootstrap_fail_txt }}' in '{{ bootstrap_complete }}' and 'ocp-mgmt' in group_names"
+  when: bootstrap_complete.stdout is search("failed to initialize the cluster") and "'ocp-mgmt' in group_names"

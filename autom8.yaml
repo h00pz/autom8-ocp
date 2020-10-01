@@ -2,10 +2,10 @@
 ## setup ipmi properly on hardware
 - hosts: all
   roles:
-    - ipmi
-    - ignite
+    #- ipmi
+    #- ignite
     #- vmware_rhcos_template
-    - vmware_bootstrap_vm
-    - waiting_on_bootstrap
+    #- vmware_bootstrap_vm
+    #- waiting_on_bootstrap
     - shutdown_bootstrap
 

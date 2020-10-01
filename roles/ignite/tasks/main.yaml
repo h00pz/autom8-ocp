@@ -54,3 +54,17 @@
 - name: copy new kubeconfig to .kube
   command: "cp {{ ocp_config_dir }}/auth/kubeconfig /root/.kube/config"
   when: "'ocp-mgmt' in group_names"
+
+#todo add OCP creds into
+#- name: Add Credential Into Tower
+#  tower_credential:
+#    name: Workshop Credential
+#    ssh_key_data: "{{ aws_ssh_key['content'] | b64decode }}"
+#    kind: ssh
+#    organization: Default
+#    tower_username: admin
+#    tower_password: ansible
+#    tower_host: https://localhost
+#  run_once: true
+#  delegate_to: localhost
+

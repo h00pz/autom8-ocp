@@ -27,6 +27,10 @@
   register: install_complete
   when: "'ocp-mgmt' in group_names"
 
+- debug: test to see if install completed
+    msg: "Install failed.  Exiting playbook.  Try again playa"
+  when:  install_complete.stdout is search("{{ install_fail_txt }}") and 'ocp-mgmt' in group_names
+
 - name: evaluate install completion and exit if failed
   meta: end_play
-  when: "'{{ install_fail_txt }}' in {{ install_complete }} and 'ocp-mgmt' in group_names"
+  when: install_complete.stdout is search("{{ install_fail_txt }}") and 'ocp-mgmt' in group_names
