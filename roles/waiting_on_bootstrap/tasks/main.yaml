@@ -4,7 +4,7 @@
   register: bootstrap_complete
   when: "'ocp-mgmt' in group_names"
 
-- debug: test to see if bootstrap completed
+- debug: 
     msg: "Bootstrap failed.  Exiting playbook.  Try again playa"
   when:  bootstrap_complete.stdout is search("failed to initialize the cluster") and "'ocp-mgmt' in group_names"
 

@@ -17,3 +17,5 @@ vmware_template: "rhcos-template"
 
 bootstrap_fail_txt: "failed waiting for Kubernetes API" 
 install_fail_txt: "failed to initialize the cluster"
+
+ceph_disk: /dev/sdb
