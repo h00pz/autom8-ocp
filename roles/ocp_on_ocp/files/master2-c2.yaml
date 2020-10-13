@@ -12,7 +12,6 @@ metadata:
   labels:
     app: master2-c2
     os.template.kubevirt.io/rhel8.2: 'true'
-    vm.kubevirt.io/template: rhel8-server-large-v0.10.0
     vm.kubevirt.io/template.namespace: openshift
     vm.kubevirt.io/template.revision: '1'
     vm.kubevirt.io/template.version: v0.11.2
