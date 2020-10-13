@@ -14,7 +14,7 @@
   when: "'ocp-mgmt' in group_names"
 
 - name: copy manifest to build directory
-  command: "cp {{ ocp_config }} {{ ocp_c2_config_dir }}"
+  command: "cp {{ ocp_c2_config }} /mnt/the-pool/rh/clusters/c2/{{ ansible_date_time.date }}/install-config.yaml"
   when: "'ocp-mgmt' in group_names"
 
 - name: create ignition files
