@@ -1,4 +1,31 @@
 ---
+- name: copy c2 yaml files 
+  copy:
+    src: "{{ item }}"
+    dest: /root/
+    mode: 0644
+  with_items:
+    - bootstrap-c2.yaml
+    - master1-c2.yaml
+    - master2-c2.yaml
+    - master3-c2.yaml
+    - worker1-c2.yaml
+    - worker2-c2.yaml
+    - worker3-c2.yaml
+  when: "'ocp-mgmt' in group_names"
+
+- name: remove old cluster VMs
+  command: "oc delete -f /root/{{ item }}"
+  with_items:
+    - bootstrap-c2.yaml
+    - master1-c2.yaml
+    - master2-c2.yaml
+    - master3-c2.yaml
+    - worker1-c2.yaml
+    - worker2-c2.yaml
+    - worker3-c2.yaml
+  when: "'ocp-mgmt' in group_names"
+
 
 - name: remove old ignition files
   file:
@@ -44,21 +71,6 @@
   command: 'oc create secret generic c2-bootstrap-ign --from-file=userdata="{{ ocp_c2_config_dir }}/bootstrap.ign" -n openshift-cnv'
   when: "'ocp-mgmt' in group_names"
   ignore_errors: yes
-
-- name: copy c2 yaml files 
-  copy:
-    src: "{{ item }}"
-    dest: /root/
-    mode: 0644
-  with_items:
-    - bootstrap-c2.yaml
-    - master1-c2.yaml
-    - master2-c2.yaml
-    - master3-c2.yaml
-    - worker1-c2.yaml
-    - worker2-c2.yaml
-    - worker3-c2.yaml
-  when: "'ocp-mgmt' in group_names"
 
 - name: apply all the c2 yamls
   command: "oc apply -f /root/{{ item }}"
