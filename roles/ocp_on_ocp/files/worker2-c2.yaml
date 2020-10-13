@@ -34,7 +34,7 @@ spec:
           volumeMode: Filesystem
         source:
           http:
-            url: 'http://172.30.23.27/vms/rhcos-452-osp.qcow2'
+            url: 'http://www.h00pz.co/rh/452/rhcos-452-osp.qcow2'
   running: true
   template:
     metadata:
