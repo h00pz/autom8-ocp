@@ -33,14 +33,17 @@
 - name: create master ign secret
   command: 'oc create secret generic c2-master-ign --from-file=userdata="{{ ocp_c2_config_dir }}/master.ign" -n openshift-cnv'
   when: "'ocp-mgmt' in group_names"
+  ignore_errors: yes
 
 - name: create worker ign secret
   command: 'oc create secret generic c2-worker-ign --from-file=userdata="{{ ocp_c2_config_dir }}/worker.ign" -n openshift-cnv'
   when: "'ocp-mgmt' in group_names"
+  ignore_errors: yes
 
 - name: create bootstrap ign secret
   command: 'oc create secret generic c2-bootstrap-ign --from-file=userdata="{{ ocp_c2_config_dir }}/bootstrap.ign" -n openshift-cnv'
   when: "'ocp-mgmt' in group_names"
+  ignore_errors: yes
 
 - name: copy c2 yaml files 
   copy:
