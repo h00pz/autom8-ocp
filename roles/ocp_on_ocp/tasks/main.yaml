@@ -1,0 +1,69 @@
+---
+
+- name: remove old ignition files
+  file:
+    path: "{{ ocp_c2_config_dir }}"
+    state: absent
+  when: "'ocp-mgmt' in group_names"
+
+- name: Build the cluster directory
+  file:
+    path: "{{ ocp_c2_config_dir }}"
+    state: directory
+    mode: "u=rwx,g=rwx,o=rwx"
+  when: "'ocp-mgmt' in group_names"
+
+- name: copy manifest to build directory
+  command: "cp {{ ocp_config }} {{ ocp_c2_config_dir }}"
+  when: "'ocp-mgmt' in group_names"
+
+- name: create ignition files
+  command: "openshift-install create ignition-configs --dir=/mnt/the-pool/rh/clusters/c2/{{ ansible_date_time.date }}"
+  when: "'ocp-mgmt' in group_names"
+
+- name: Clean up old cnv secrets
+  command: "oc delete secret generic {{ item }} -n openshift-cnv"
+  when: "'ocp-mgmt' in group_names"
+  with_items:
+    - c2-master-ign
+    - c2-worker-ign
+    - c2-boostrap-ign
+
+- name: create master ign secret
+  command: 'oc create secret generic c2-master-ign --from-file=userdata="{{ ocp_c2_config_dir }}/master.ign" -n openshift-cnv'
+  when: "'ocp-mgmt' in group_names"
+
+- name: create worker ign secret
+  command: 'oc create secret generic c2-worker-ign --from-file=userdata="{{ ocp_c2_config_dir }}/worker.ign" -n openshift-cnv'
+  when: "'ocp-mgmt' in group_names"
+
+- name: create bootstrap ign secret
+  command: 'oc create secret generic c2-bootstrap-ign --from-file=userdata="{{ ocp_c2_config_dir }}/bootstrap.ign" -n openshift-cnv'
+  when: "'ocp-mgmt' in group_names"
+
+- name: copy c2 yaml files 
+  copy:
+    src: "{{ item }}"
+    dest: /root/
+    mode: 0644
+  with_items:
+    - bootstrap-c2.yaml
+    - master1-c2.yaml
+    - master2-c2.yaml
+    - master3-c2.yaml
+    - worker1-c2.yaml
+    - worker2-c2.yaml
+    - worker3-c2.yaml
+  when: "'ocp-mgmt' in group_names"
+
+- name: apply all the c2 yamls
+  command: "oc apply -f /root/{{ item }}"
+  with_items:
+    - bootstrap-c2.yaml
+    - master1-c2.yaml
+    - master2-c2.yaml
+    - master3-c2.yaml
+    - worker1-c2.yaml
+    - worker2-c2.yaml
+    - worker3-c2.yaml
+  when: "'ocp-mgmt' in group_names"
