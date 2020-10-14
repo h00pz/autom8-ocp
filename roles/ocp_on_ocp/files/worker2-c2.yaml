@@ -85,5 +85,5 @@ spec:
           name: disk-0
         - cloudInitConfigDrive:
             secretRef:
-              name: c2-master-ign
+              name: c2-worker-ign
           name: cloudinitdisk
