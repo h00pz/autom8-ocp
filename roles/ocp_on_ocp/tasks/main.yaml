@@ -54,7 +54,7 @@
   with_items:
     - c2-master-ign
     - c2-worker-ign
-    - c2-boostrap-ign
+    - c2-bootstrap-ign
   ignore_errors: yes
 
 - name: create master ign secret
