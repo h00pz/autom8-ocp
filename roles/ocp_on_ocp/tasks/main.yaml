@@ -25,7 +25,7 @@
     - worker2-c2.yaml
     - worker3-c2.yaml
   when: "'ocp-mgmt' in group_names"
-
+  ignore_errors: yes
 
 - name: remove old ignition files
   file:
