@@ -5,8 +5,10 @@ ipmi_password:   '{{ lookup("env", "ANSIBLE_NET_PASSWORD") }}'
 #ocp-config
 ocp_config_dir: /mnt/the-pool/rh/clusters/c1/{{ansible_date_time.date}}
 ocp_c2_config_dir: /mnt/the-pool/rh/clusters/c2/{{ansible_date_time.date}}
+ocp_c3_config_dir: /mnt/the-pool/rh/cluster/c3/{{ansible_date_time.date}}
 ocp_config: /mnt/the-pool/rh/install-config.yaml
 ocp_c2_config: /mnt/the-pool/rh/c2-install-config.yaml
+ocp_c3_config: /mnt/the-pool/rh/c3-install-config.yaml
 ocp_web_dir: /mnt/the-pool/rh
 
 vmware_host:     '{{ lookup("env", "VMWARE_HOST") }}'

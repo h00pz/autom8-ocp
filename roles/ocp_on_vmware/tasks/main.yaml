@@ -1,0 +1,21 @@
+---
+- name: remove old ignition files
+  file:
+    path: "{{ ocp_c3_config_dir }}"
+    state: absent
+  when: "'ocp-mgmt' in group_names"
+
+- name: Build the cluster directory
+  file:
+    path: "{{ ocp_c3_config_dir }}"
+    state: directory
+    mode: "u=rwx,g=rwx,o=rwx"
+  when: "'ocp-mgmt' in group_names"
+
+- name: copy manifest to build directory
+  command: "cp {{ ocp_c3_config }} /mnt/the-pool/rh/clusters/c3/{{ ansible_date_time.date }}/install-config.yaml"
+  when: "'ocp-mgmt' in group_names"
+
+- name: Deploy the cluster
+  command: "openshift-install create cluster --dir=/mnt/the-pool/rh/clusters/c3/{{ ansible_date_time.date }} --log-level=info"
+  when: "'ocp-mgmt' in group_names"
