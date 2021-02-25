@@ -45,7 +45,7 @@
       scsi: paravirtual
       memory_reservation_lock: False
     networks:
-    - name: "pg-vlan22"
+    - name: "VM Network"
       mac: "00:0c:29:53:83:eb"
   delegate_to: localhost
   when: "'ocp-mgmt' in group_names"
