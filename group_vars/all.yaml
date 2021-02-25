@@ -3,13 +3,13 @@ ipmi_username:   '{{ lookup("env", "ANSIBLE_NET_USERNAME") }}'
 ipmi_password:   '{{ lookup("env", "ANSIBLE_NET_PASSWORD") }}'
 
 #ocp-config
-ocp_config_dir: /mnt/the-pool/rh/clusters/c1/{{ansible_date_time.date}}
-ocp_c2_config_dir: /mnt/the-pool/rh/clusters/c2/{{ansible_date_time.date}}
-ocp_c3_config_dir: /mnt/the-pool/rh/clusters/c3/{{ansible_date_time.date}}
-ocp_config: /mnt/the-pool/rh/install-config.yaml
-ocp_c2_config: /mnt/the-pool/rh/c2-install-config.yaml
-ocp_c3_config: /mnt/the-pool/rh/c3-install-config.yaml
-ocp_web_dir: /mnt/the-pool/rh
+ocp_config_dir: /mnt/arthur/rh/clusters/c1/{{ansible_date_time.date}}
+ocp_c2_config_dir: /mnt/arthur/rh/clusters/c2/{{ansible_date_time.date}}
+ocp_c3_config_dir: /mnt/arthur/rh/clusters/c3/{{ansible_date_time.date}}
+ocp_config: /mnt/arthur/rh/install-config.yaml
+ocp_c2_config: /mnt/arthur/rh/c2-install-config.yaml
+ocp_c3_config: /mnt/arthur/rh/c3-install-config.yaml
+ocp_web_dir: /mnt/arthur/rh
 
 vmware_host:     '{{ lookup("env", "VMWARE_HOST") }}'
 vmware_user:     '{{ lookup("env", "VMWARE_USER") }}'
