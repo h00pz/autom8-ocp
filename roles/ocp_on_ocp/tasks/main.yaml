@@ -1,8 +1,14 @@
 ---
+- name: make ocp2 dir
+  file:
+    path: "{{ ocp2_dir }}"
+    state: directory
+  when: "'ocp-mgmt' in group_names"
+
 - name: copy c2 yaml files 
   copy:
     src: "{{ item }}"
-    dest: /root/
+    dest: "{{ ocp2_dir }}"
     mode: 0644
   with_items:
     - bootstrap-c2.yaml
@@ -15,7 +21,7 @@
   when: "'ocp-mgmt' in group_names"
 
 - name: remove old cluster VMs
-  command: "oc delete -f /root/{{ item }}"
+  command: "oc delete -f {{ ocp2_dir }}/{{ item }}"
   with_items:
     - bootstrap-c2.yaml
     - master1-c2.yaml
@@ -41,11 +47,11 @@
   when: "'ocp-mgmt' in group_names"
 
 - name: copy manifest to build directory
-  command: "cp {{ ocp_c2_config }} /mnt/the-pool/rh/clusters/c2/{{ ansible_date_time.date }}/install-config.yaml"
+  command: "cp {{ ocp_c2_config }} /mnt/arthur/rh/clusters/c2/{{ ansible_date_time.date }}/install-config.yaml"
   when: "'ocp-mgmt' in group_names"
 
 - name: create ignition files
-  command: "openshift-install create ignition-configs --dir=/mnt/the-pool/rh/clusters/c2/{{ ansible_date_time.date }}"
+  command: "openshift-install create ignition-configs --dir=/mnt/arthur/rh/clusters/c2/{{ ansible_date_time.date }}"
   when: "'ocp-mgmt' in group_names"
 
 - name: Clean up old cnv secrets
@@ -73,7 +79,7 @@
   ignore_errors: yes
 
 - name: apply all the c2 yamls
-  command: "oc apply -f /root/{{ item }}"
+  command: "oc apply -f {{ ocp2_dir }}/{{ item }}"
   with_items:
     - bootstrap-c2.yaml
     - master1-c2.yaml

@@ -10,6 +10,7 @@ ocp_config: /mnt/arthur/rh/install-config.yaml
 ocp_c2_config: /mnt/arthur/rh/c2-install-config.yaml
 ocp_c3_config: /mnt/arthur/rh/c3-install-config.yaml
 ocp_web_dir: /mnt/arthur/rh
+ocp2_dir: /root/ocp2
 
 vmware_host:     '{{ lookup("env", "VMWARE_HOST") }}'
 vmware_user:     '{{ lookup("env", "VMWARE_USER") }}'

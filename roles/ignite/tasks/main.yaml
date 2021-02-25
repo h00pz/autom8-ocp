@@ -23,7 +23,7 @@
   when: "'ocp-mgmt' in group_names"
 
 - name: create ignition files
-  command: "openshift-install create ignition-configs --dir=/mnt/the-pool/rh/clusters/c1/{{ ansible_date_time.date }}"
+  command: "openshift-install create ignition-configs --dir=/mnt/arthur/rh/clusters/c1/{{ ansible_date_time.date }}"
   when: "'ocp-mgmt' in group_names"
 
 - name: create ignition symlinks
