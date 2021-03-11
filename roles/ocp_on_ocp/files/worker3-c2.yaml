@@ -35,6 +35,22 @@ spec:
         source:
           http:
             url: 'http://www.h00pz.co/rh/452/rhcos-452-osp.qcow2'
+    - apiVersion: cdi.kubevirt.io/v1alpha1
+      kind: DataVolume
+      metadata:
+        creationTimestamp: null
+        name: worker3-c2-disk-1
+      spec:
+        pvc:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 100Gi
+          storageClassName: ocs-storagecluster-ceph-rbd
+          volumeMode: Filesystem
+        source:
+          blank: {}
   running: true
   template:
     metadata:
@@ -57,6 +73,9 @@ spec:
             - disk:
                 bus: virtio
               name: disk-0
+            - disk:
+                bus: virtio
+              name: disk-1
             - disk:
                 bus: virtio
               name: cloudinitdisk
@@ -83,6 +102,9 @@ spec:
         - dataVolume:
             name: worker3-c2-disk-0
           name: disk-0
+        - dataVolume:
+            name: worker3-c2-disk-1
+          name: disk-1
         - cloudInitConfigDrive:
             secretRef:
               name: c2-worker-ign
